@@ -13,25 +13,86 @@ public class MyList<E> {
         elements = new Object[capacity];
     }
     public void add(int index, E element) {
-        if (size >= elements.length) {
-            System.out.println("Danh sach day");
-            return;
-        }
+
         if (index < 0 || index >= size) {
-            System.out.println("Chi so khong dung");
-
+            System.out.println("Index out of bounds");
+        return;
         }
-    }}
-//    E remove(int index) {
+        for (int i = size; i > index; i--) {
+            elements[i] = elements[i - 1];
+        }
+        elements[index] = element;
+        size++;
+    }
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            System.out.println("Index out of bounds");
+            return null;
+    }
+        Object temp = elements[index];
+        for (int i = index; i < size - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
+        size--;
+        return (E) temp;
+    }
 
-//    };
-//    int size(){};
-//    E clone(E element) {};
-//    boolean contain() {E o};
-//    int indexOf(E o) {E o};
-//    boolean add(E element) {};
-//    void ensureCapacity(int minCapacity) {};
-//    E get(int i) {};
-//    void clear();
+    public int size(){
+        return size;
+    }
 
-//}
+    public E clone(){
+        return (E) elements;
+    }
+
+    public boolean contains(E o) {
+        for(Object elem : elements) {
+            if (elem==null)
+                break;
+            E obj = (E) elem;
+            if(obj.equals(o)){
+                return true;
+            }
+        }
+            return false;
+    }
+    public int indexOf(E o){
+        for(int i=0;i<size;i++){
+            E elem = (E) elements[i];
+            if(elem.equals(o)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean add(E e){
+        if(size>=elements.length)
+            return false;
+        elements[size] = e;
+        size++;
+        return true;
+    }
+
+    public void ensureCapacity(int minCapacity){
+        if(elements.length-size>minCapacity){
+            System.out.println("Sure capacity!");
+        }else{
+            System.out.println("Can't capacity!");
+        }
+    }
+
+    public E get(int i){
+        if(i<0 || i>=size)
+            return null;
+        return (E) elements[i];
+    }
+
+    public void clear(){
+        for(int i=0;i<size;i++){
+            elements[i] = null;
+        }
+        size = 0;
+    }
+
+}
